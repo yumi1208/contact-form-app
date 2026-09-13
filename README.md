@@ -8,11 +8,16 @@
 
 ## 環境構築
 
-### Dockerビルド
+### リポジトリの取得
 
 ```bash
-git clone <リポジトリURL>
+git clone https://github.com/yumi1208/contact-form-app.git
 cd contact-form-app
+```
+
+### Docker起動
+
+```bash
 docker compose up -d --build
 ```
 
@@ -20,19 +25,7 @@ docker compose up -d --build
 
 ```bash
 cp .env.example .env
-composer install
-php artisan key:generate
-```
-
-Laravel Sailを使用してコンテナを起動します。
-
-```bash
-./vendor/bin/sail up -d
-```
-
-マイグレーションとシーディングを実行します。
-
-```bash
+./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate:fresh --seed
 ```
 
@@ -123,6 +116,8 @@ Laravel Sailを使用してコンテナを起動します。
 - tags
 - contact_tag
 
+`categories` と `contacts` は1対多の関係です。
+
 `contacts` と `tags` は多対多の関係になっており、`contact_tag` を中間テーブルとして使用しています。
 
 ## 初期データ
@@ -148,10 +143,17 @@ Laravel Sailを使用してコンテナを起動します。
 ./vendor/bin/sail artisan test
 ```
 
+カバレッジを確認する場合：
+
+```bash
+./vendor/bin/sail artisan test --coverage
+```
+
 現在のテスト結果：
 
 - 30 tests passed
 - 91 assertions
+- Coverage 78.7%
 
 ## ER図
 
@@ -164,3 +166,5 @@ Laravel Sailを使用してコンテナを起動します。
 - contact_tag
 
 `categories` と `contacts` は1対多、`contacts` と `tags` は `contact_tag` を介した多対多の関係です。
+
+ER図は確認テストの要件シートにも記載しています。
